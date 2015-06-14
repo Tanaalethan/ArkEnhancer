@@ -3,8 +3,12 @@ Imports System.Management
 Imports System.IO
 Imports System.Net
 Imports System.Text
+Imports System.Globalization
 
 Public Class Form1
+    Dim nfi As NumberFormatInfo = New CultureInfo("en-US", False).NumberFormat
+    'Thread.CurrentThread.CurrentCulture = New CultureInfo("en-US")
+    Dim localfolder As String = Application.StartupPath
 
     Dim msini As New IniFile
     Dim gsini As New IniFile
@@ -15,11 +19,41 @@ Public Class Form1
     Dim arkess As String
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If File.Exists("C:\arkespecialsettings.ini") Then
-            arkessini.Load("C:\arkespecialsettings.ini")
+        Application.CurrentCulture = New CultureInfo("en-US")
+        'MsgBox(localfolder & "\arkespecialsettings.ini")
+        GetINIFiles()
+    End Sub
+
+
+    Private Sub GetINIFiles()
+        FolderBrowserDialog1.SelectedPath = ""
+        If File.Exists("C:\arkespecialsettings.ini") Or File.Exists(localfolder & "\arkespecialsettings.ini") Then
+            If File.Exists(localfolder & "\arkespecialsettings.ini") Then
+                arkessini.Load(localfolder & "\arkespecialsettings.ini")
+            ElseIf File.Exists("C:\arkespecialsettings.ini") Then
+                arkessini.Load("C:\arkespecialsettings.ini")
+            End If
             arkess = arkessini.GetKeyValue("SystemSettings", "programfilesname")
-            msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
-            gsfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+
+            If File.Exists(arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
+                msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
+                gsfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+            ElseIf File.Exists(arkess & "\Saved\Config\WindowsNoEditor\Engine.ini") Then
+                msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
+                gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+            Else
+                MsgBox("ARKE was unable to locate your settings files. Please select the directory ShooterGame resides in." & vbCrLf & "Example: C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame", MsgBoxStyle.Exclamation)
+                'FolderBrowserDialog1.ShowDialog()
+                If DialogResult.OK = FolderBrowserDialog1.ShowDialog() Then
+                    arkess = FolderBrowserDialog1.SelectedPath
+                    msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
+                    gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                    arkessini.SetKeyValue("SystemSettings", "programfilesname", arkess)
+                    arkessini.Save(localfolder & "\arkespecialsettings.ini")
+                Else
+                    Application.Exit()
+                End If
+            End If
         Else
             If File.Exists("C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
@@ -28,21 +62,23 @@ Public Class Form1
                 msfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
             Else
-                MsgBox("ARKE was unable to locate your settings files. Please select the directory Steam resides in." & vbCrLf & "Example: C:\Program Files (x86)\Steam", MsgBoxStyle.Exclamation)
+                MsgBox("ARKE was unable to locate your settings files. Please select the directory ShooterGame resides in." & vbCrLf & "Example: C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame", MsgBoxStyle.Exclamation)
                 'FolderBrowserDialog1.ShowDialog()
                 If DialogResult.OK = FolderBrowserDialog1.ShowDialog() Then
                     arkess = FolderBrowserDialog1.SelectedPath
-                    msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
-                    gsfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                    msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
+                    gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
                     arkessini.SetKeyValue("SystemSettings", "programfilesname", arkess)
-                    arkessini.Save("C:\arkespecialsettings.ini")
+                    arkessini.Save(localfolder & "\arkespecialsettings.ini")
                 Else
                     Application.Exit()
                 End If
 
             End If
         End If
-
+            If Not File.Exists(msfile) And Not FolderBrowserDialog1.SelectedPath = "" Then
+                GetINIFiles()
+            End If
     End Sub
 
 
@@ -56,13 +92,13 @@ Public Class Form1
         pb_sysinfo.Value = 1
         GetGraphicsCardName()
         pb_sysinfo.Value = 2
-        If File.Exists("C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
-            msfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
-            gsfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
-        ElseIf File.Exists("C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
-            msfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
-            gsfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
-        End If
+        'If File.Exists("C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
+        'msfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
+        'gsfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+        'ElseIf File.Exists("C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
+        'msfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
+        'gsfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+        'End If
 
         msini.Load(msfile)
         gsini.Load(gsfile)
@@ -425,7 +461,7 @@ Public Class Form1
         'pb_sysinfo.Value += 1
         gsini.SetKeyValue("ScalabilityGroups", "sg.HeightFieldShadowQuality", ComboBox6.SelectedIndex)
         'pb_sysinfo.Value += 1
-        gsini.SetKeyValue("ScalabilityGroups", "sg.TextureQuality", ComboBox6.SelectedIndex)
+        gsini.SetKeyValue("ScalabilityGroups", "sg.TextureQuality", ComboBox7.SelectedIndex)
         'pb_sysinfo.Value += 1
 
         gsini.SetKeyValue("/Script/ShooterGame.ShooterGameUserSettings", "bMotionBlur", CheckBox15.Checked)
@@ -571,20 +607,20 @@ Public Class Form1
                 'DataGridView1.DataSource = dt
                 'If csv(0) = "1" Then
                 'End If
-                CheckBox1.Checked = Convert.ToBoolean(csv(0))
-                CheckBox2.Checked = Convert.ToBoolean(csv(1))
-                CheckBox3.Checked = Convert.ToBoolean(csv(2))
-                CheckBox4.Checked = Convert.ToBoolean(csv(3))
-                CheckBox5.Checked = Convert.ToBoolean(csv(4))
-                CheckBox6.Checked = Convert.ToBoolean(csv(5))
-                CheckBox7.Checked = Convert.ToBoolean(csv(6))
-                CheckBox8.Checked = Convert.ToBoolean(csv(7))
-                CheckBox9.Checked = Convert.ToBoolean(csv(8))
-                CheckBox10.Checked = Convert.ToBoolean(csv(9))
-                CheckBox11.Checked = Convert.ToBoolean(csv(10))
-                CheckBox12.Checked = Convert.ToBoolean(csv(11))
-                CheckBox13.Checked = Convert.ToBoolean(csv(12))
-                CheckBox14.Checked = Convert.ToBoolean(csv(13))
+                CheckBox1.Checked = Convert.ToInt32(csv(0))
+                CheckBox2.Checked = Convert.ToInt32(csv(1))
+                CheckBox3.Checked = Convert.ToInt32(csv(2))
+                CheckBox4.Checked = Convert.ToInt32(csv(3))
+                CheckBox5.Checked = Convert.ToInt32(csv(4))
+                CheckBox6.Checked = Convert.ToInt32(csv(5))
+                CheckBox7.Checked = Convert.ToInt32(csv(6))
+                CheckBox8.Checked = Convert.ToInt32(csv(7))
+                CheckBox9.Checked = Convert.ToInt32(csv(8))
+                CheckBox10.Checked = Convert.ToInt32(csv(9))
+                CheckBox11.Checked = Convert.ToInt32(csv(10))
+                CheckBox12.Checked = Convert.ToInt32(csv(11))
+                CheckBox13.Checked = Convert.ToInt32(csv(12))
+                CheckBox14.Checked = Convert.ToInt32(csv(13))
 
                 TextBox1.Text = csv(14)
 
@@ -598,14 +634,14 @@ Public Class Form1
                 ComboBox7.Text = ComboBox1.Items(Convert.ToInt32(csv(22)) - 1)
                 NumericUpDown2.Value = Convert.ToInt32(csv(23))
                 NumericUpDown3.Value = Convert.ToInt32(csv(24))
-                CheckBox15.Checked = Convert.ToBoolean(csv(25))
-                CheckBox16.Checked = Convert.ToBoolean(csv(26))
-                CheckBox17.Checked = Convert.ToBoolean(csv(27))
-                CheckBox18.Checked = Convert.ToBoolean(csv(28))
-                CheckBox19.Checked = Convert.ToBoolean(csv(29))
-                CheckBox20.Checked = Convert.ToBoolean(csv(30))
-                CheckBox21.Checked = Convert.ToBoolean(csv(31))
-                CheckBox22.Checked = Convert.ToBoolean(csv(32))
+                CheckBox15.Checked = Convert.ToInt32(csv(25))
+                CheckBox16.Checked = Convert.ToInt32(csv(26))
+                CheckBox17.Checked = Convert.ToInt32(csv(27))
+                CheckBox18.Checked = Convert.ToInt32(csv(28))
+                CheckBox19.Checked = Convert.ToInt32(csv(29))
+                CheckBox20.Checked = Convert.ToInt32(csv(30))
+                CheckBox21.Checked = Convert.ToInt32(csv(31))
+                CheckBox22.Checked = Convert.ToInt32(csv(32))
                 NumericUpDown4.Value = Convert.ToInt32(csv(33))
 
             Else

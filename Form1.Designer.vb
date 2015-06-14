@@ -895,7 +895,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "ArkEnhancer v1.1.1 (For Ark 173.0 - 174.11)"
+        Me.Text = "ArkEnhancer v1.1.6 (For Ark 173.0 - 174.11)"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
