@@ -35,7 +35,7 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pb_sysinfo = New System.Windows.Forms.ProgressBar()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.l_gpu = New System.Windows.Forms.Label()
+        Me.l_gpu_o = New System.Windows.Forms.Label()
         Me.l_gpuram = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.l_gpudvr = New System.Windows.Forms.Label()
@@ -99,6 +99,11 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.FolderBrowserDialog2 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.DeviceName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DeviceVRAM = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DeviceDriver = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.l_gpu = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -109,6 +114,7 @@ Partial Class Form1
         CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -223,23 +229,23 @@ Partial Class Form1
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(6, 16)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(52, 13)
+        Me.Label3.Size = New System.Drawing.Size(44, 13)
         Me.Label3.TabIndex = 3
-        Me.Label3.Text = "Graphics:"
+        Me.Label3.Text = "Device:"
         '
-        'l_gpu
+        'l_gpu_o
         '
-        Me.l_gpu.AutoSize = True
-        Me.l_gpu.Location = New System.Drawing.Point(72, 16)
-        Me.l_gpu.Name = "l_gpu"
-        Me.l_gpu.Size = New System.Drawing.Size(16, 13)
-        Me.l_gpu.TabIndex = 6
-        Me.l_gpu.Text = "..."
+        Me.l_gpu_o.AutoSize = True
+        Me.l_gpu_o.Location = New System.Drawing.Point(72, 16)
+        Me.l_gpu_o.Name = "l_gpu_o"
+        Me.l_gpu_o.Size = New System.Drawing.Size(16, 13)
+        Me.l_gpu_o.TabIndex = 6
+        Me.l_gpu_o.Text = "..."
         '
         'l_gpuram
         '
         Me.l_gpuram.AutoSize = True
-        Me.l_gpuram.Location = New System.Drawing.Point(72, 29)
+        Me.l_gpuram.Location = New System.Drawing.Point(72, 36)
         Me.l_gpuram.Name = "l_gpuram"
         Me.l_gpuram.Size = New System.Drawing.Size(16, 13)
         Me.l_gpuram.TabIndex = 8
@@ -248,7 +254,7 @@ Partial Class Form1
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 29)
+        Me.Label5.Location = New System.Drawing.Point(6, 36)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(47, 13)
         Me.Label5.TabIndex = 7
@@ -257,7 +263,7 @@ Partial Class Form1
         'l_gpudvr
         '
         Me.l_gpudvr.AutoSize = True
-        Me.l_gpudvr.Location = New System.Drawing.Point(72, 42)
+        Me.l_gpudvr.Location = New System.Drawing.Point(72, 49)
         Me.l_gpudvr.Name = "l_gpudvr"
         Me.l_gpudvr.Size = New System.Drawing.Size(16, 13)
         Me.l_gpudvr.TabIndex = 10
@@ -266,7 +272,7 @@ Partial Class Form1
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 42)
+        Me.Label6.Location = New System.Drawing.Point(6, 49)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(38, 13)
         Me.Label6.TabIndex = 9
@@ -274,11 +280,12 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.l_gpu)
         Me.GroupBox2.Controls.Add(Me.l_gpudvr)
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Controls.Add(Me.Label6)
         Me.GroupBox2.Controls.Add(Me.Button2)
-        Me.GroupBox2.Controls.Add(Me.l_gpu)
+        Me.GroupBox2.Controls.Add(Me.l_gpu_o)
         Me.GroupBox2.Controls.Add(Me.l_gpuram)
         Me.GroupBox2.Controls.Add(Me.Label5)
         Me.GroupBox2.Location = New System.Drawing.Point(349, 12)
@@ -290,7 +297,7 @@ Partial Class Form1
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(204, 9)
+        Me.Button2.Location = New System.Drawing.Point(215, 9)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(110, 20)
         Me.Button2.TabIndex = 4
@@ -877,11 +884,45 @@ Partial Class Form1
         '
         Me.FolderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
+        'DataGridView1
+        '
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DeviceName, Me.DeviceVRAM, Me.DeviceDriver})
+        Me.DataGridView1.Location = New System.Drawing.Point(21, 387)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.Size = New System.Drawing.Size(659, 150)
+        Me.DataGridView1.TabIndex = 9
+        Me.DataGridView1.Visible = False
+        '
+        'DeviceName
+        '
+        Me.DeviceName.HeaderText = "DeviceName"
+        Me.DeviceName.Name = "DeviceName"
+        '
+        'DeviceVRAM
+        '
+        Me.DeviceVRAM.HeaderText = "DeviceVRAM"
+        Me.DeviceVRAM.Name = "DeviceVRAM"
+        '
+        'DeviceDriver
+        '
+        Me.DeviceDriver.HeaderText = "DeviceDriver"
+        Me.DeviceDriver.Name = "DeviceDriver"
+        '
+        'l_gpu
+        '
+        Me.l_gpu.FormattingEnabled = True
+        Me.l_gpu.Location = New System.Drawing.Point(64, 13)
+        Me.l_gpu.Name = "l_gpu"
+        Me.l_gpu.Size = New System.Drawing.Size(261, 21)
+        Me.l_gpu.TabIndex = 11
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(692, 393)
+        Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.GroupBox4)
         Me.Controls.Add(Me.GroupBox3)
@@ -895,7 +936,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "ArkEnhancer v1.1.6 (For Ark 173.0 - 174.11)"
+        Me.Text = "ArkEnhancer v1.1.7 (For Ark 173.0 - 174.31)"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -910,12 +951,13 @@ Partial Class Form1
         CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents pb_sysinfo As System.Windows.Forms.ProgressBar
-    Friend WithEvents l_gpu As System.Windows.Forms.Label
+    Friend WithEvents l_gpu_o As System.Windows.Forms.Label
     Friend WithEvents l_mem As System.Windows.Forms.Label
     Friend WithEvents l_cpu As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -989,5 +1031,10 @@ Partial Class Form1
     Friend WithEvents CheckBox23 As System.Windows.Forms.CheckBox
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents FolderBrowserDialog2 As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
+    Friend WithEvents DeviceName As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents DeviceVRAM As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents DeviceDriver As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents l_gpu As System.Windows.Forms.ComboBox
 
 End Class

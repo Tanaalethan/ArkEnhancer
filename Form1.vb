@@ -17,6 +17,10 @@ Public Class Form1
     Dim msfile As String
     Dim gsfile As String
     Dim arkess As String
+    Dim arkegpu As String
+
+    Dim gpudata As New ArrayList
+
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Application.CurrentCulture = New CultureInfo("en-US")
@@ -34,6 +38,7 @@ Public Class Form1
                 arkessini.Load("C:\arkespecialsettings.ini")
             End If
             arkess = arkessini.GetKeyValue("SystemSettings", "programfilesname")
+            arkegpu = arkessini.GetKeyValue("SystemSettings", "selgpuindex")
 
             If File.Exists(arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
@@ -513,17 +518,30 @@ Public Class Form1
         Dim gpu As String = "..."
         Dim gpuram As Int32 = 0
         Dim gpudvr As String = "..."
-
+        'MsgBox(search.Get.Count)
         For Each info In search.Get()
             gpu = info("Name").ToString
             'info("VideoProcessor").ToString()
             gpuram = info("AdapterRAM") / 1024 / 1024
             gpudvr = info("DriverVersion").ToString
+            DataGridView1.Rows.Add(New String() {gpu.ToString, gpuram.ToString, gpudvr.ToString})
+            l_gpu.Items.Insert(l_gpu.Items.Count, gpu.ToString)
+
         Next
 
-        l_gpu.Text = gpu
-        l_gpuram.Text = gpuram & " MB"
-        l_gpudvr.Text = gpudvr
+        If Not arkegpu = "" Then
+            l_gpu.Text = DataGridView1.Rows(arkegpu).Cells(0).Value
+            l_gpuram.Text = DataGridView1.Rows(arkegpu).Cells(1).Value & " MB"
+            l_gpudvr.Text = DataGridView1.Rows(arkegpu).Cells(2).Value
+        Else
+            l_gpu.Text = gpu
+            l_gpuram.Text = gpuram & " MB"
+            l_gpudvr.Text = gpudvr
+        End If
+
+        'l_gpu_o.Text = gpu
+        'l_gpuram.Text = gpuram & " MB"
+        'l_gpudvr.Text = gpudvr
         'Return GraphicsCardName
     End Sub
     Private Sub GetCPUName()
@@ -652,7 +670,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_gpu.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value
+        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_gpu_o.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value
         Dim onyn = MsgBox("Do you want to let ArkEnhancer connect to ark.hiveserver.net submit your settings?" & vbCrLf & "ARKE will only submit data visible for comparison and data entry." & vbCrLf & vbCrLf & submitstring, MsgBoxStyle.YesNo, "Online Access")
         If onyn = MsgBoxResult.Yes Then
             Dim request As WebRequest = WebRequest.Create("http://ark.hiveserver.net/arkesubmit.php?data=" & submitstring)
@@ -665,5 +683,14 @@ Public Class Form1
             response.Close()
             MsgBox(responseFromServer)
         End If
+    End Sub
+
+    Private Sub l_gpu_SelectedIndexChanged(sender As Object, e As EventArgs) Handles l_gpu.SelectedIndexChanged
+        l_gpu.Text = DataGridView1.Rows(l_gpu.SelectedIndex).Cells(0).Value
+        l_gpuram.Text = DataGridView1.Rows(l_gpu.SelectedIndex).Cells(1).Value & " MB"
+        l_gpudvr.Text = DataGridView1.Rows(l_gpu.SelectedIndex).Cells(2).Value
+
+        arkessini.SetKeyValue("SystemSettings", "selgpuindex", l_gpu.SelectedIndex)
+        arkessini.Save(localfolder & "\arkespecialsettings.ini")
     End Sub
 End Class
