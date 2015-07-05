@@ -7,12 +7,9 @@
 *.userosscache
 *.sln.docstates
 
-<<<<<<< HEAD
-=======
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -25,23 +22,14 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-<<<<<<< HEAD
-# Roslyn cache directories
-*.ide/
-=======
 # Visual Studo 2015 cache/options directory
 .vs/
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-<<<<<<< HEAD
-#NUNIT
-=======
 # NUNIT
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa
 *.VisualState.xml
 TestResult.xml
 
@@ -152,11 +140,7 @@ publish/
 **/packages/*
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
-<<<<<<< HEAD
-# If using the old MSBuild-Integrated Package Restore, uncomment this:
-=======
 # Uncomment if necessary however generally it will be regenerated when needed
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa
 #!**/packages/repositories.config
 
 # Windows Azure Build Output
@@ -167,12 +151,7 @@ csx/
 AppPackages/
 
 # Others
-<<<<<<< HEAD
-sql/
-*.Cache
-=======
 *.[Cc]ache
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
@@ -182,10 +161,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
-<<<<<<< HEAD
-=======
 bower_components/
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -210,54 +186,6 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-<<<<<<< HEAD
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-# =========================
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-=======
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 
@@ -266,4 +194,3 @@ $RECYCLE.BIN/
 
 # Visual Studio 6 workspace options file
 *.opt
->>>>>>> c8ed292f9b57f2271f8a8fd461cbec196500cbaa

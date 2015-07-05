@@ -6,20 +6,21 @@ Imports System.Text
 Imports System.Globalization
 
 Public Class Form1
-    Dim nfi As NumberFormatInfo = New CultureInfo("en-US", False).NumberFormat
+    Public nfi As NumberFormatInfo = New CultureInfo("en-US", False).NumberFormat
     'Thread.CurrentThread.CurrentCulture = New CultureInfo("en-US")
-    Dim localfolder As String = Application.StartupPath
+    Public localfolder As String = Application.StartupPath
 
-    Dim msini As New IniFile
-    Dim gsini As New IniFile
-    Dim arkessini As New IniFile
+    Public msini As New IniFile
+    Public gsini As New IniFile
+    Public arkessini As New IniFile
 
-    Dim msfile As String
-    Dim gsfile As String
-    Dim arkess As String
-    Dim arkegpu As String
+    Public msfile As String
+    Public gsfile As String
+    Public arkess As String
+    Public arkegpu As String
+    Public arkebkp As String
 
-    Dim gpudata As New ArrayList
+    Public gpudata As New ArrayList
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -38,7 +39,19 @@ Public Class Form1
                 arkessini.Load("C:\arkespecialsettings.ini")
             End If
             arkess = arkessini.GetKeyValue("SystemSettings", "programfilesname")
+            If (arkess = "") Then
+                arkess = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame"
+            End If
             arkegpu = arkessini.GetKeyValue("SystemSettings", "selgpuindex")
+            If (arkegpu = "") Then
+                arkegpu = 0
+            End If
+            arkebkp = arkessini.GetKeyValue("AppSettings", "makebackup")
+            If (arkebkp = "") Then
+                arkebkp = True
+            End If
+            'MsgBox(arkebkp)
+            CheckBox24.Checked = arkebkp
 
             If File.Exists(arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
@@ -81,14 +94,18 @@ Public Class Form1
 
             End If
         End If
-            If Not File.Exists(msfile) And Not FolderBrowserDialog1.SelectedPath = "" Then
-                GetINIFiles()
-            End If
+        If Not File.Exists(msfile) And Not FolderBrowserDialog1.SelectedPath = "" Then
+            GetINIFiles()
+        End If
     End Sub
 
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        DoLoadINI()
+        
+    End Sub
 
+    Sub DoLoadINI()
         Button1.Visible = False
         pb_sysinfo.Value = 0
 
@@ -344,6 +361,8 @@ Public Class Form1
 
 
     Private Sub SetSettings()
+
+
         pb_sysinfo.Value = 0
         If CheckBox1.Checked = True Then
             msini.SetKeyValue("SystemSettings", "r.PostProcessAAQuality", "0")
@@ -579,6 +598,18 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+
+        If (CheckBox24.Checked) Then
+            Dim d As DateTime = Now
+            'arke-2015-6-24-18-48-12
+            Dim stamptext = "-arke-" & d.ToString("yyyy-MM-dd-HH-MM-ss")
+            Dim msbfile As String = msfile.Insert(msfile.Length - 4, stamptext)
+            Dim gsbfile As String = gsfile.Insert(gsfile.Length - 4, stamptext)
+            msini.Save(msbfile)
+            gsini.Save(gsbfile)
+        End If
+
         SetSettings()
     End Sub
 
@@ -692,5 +723,19 @@ Public Class Form1
 
         arkessini.SetKeyValue("SystemSettings", "selgpuindex", l_gpu.SelectedIndex)
         arkessini.Save(localfolder & "\arkespecialsettings.ini")
+    End Sub
+
+    Private Sub CheckBox24_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox24.Click
+        arkessini.SetKeyValue("AppSettings", "makebackup", CheckBox24.Checked)
+        arkessini.Save(localfolder & "\arkespecialsettings.ini")
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Form2.ShowDialog()
+
+    End Sub
+
+    Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked, LinkLabel4.LinkClicked
+        MsgBox("As of current game version 183.1, this setting does absolutely nothing." & vbCrLf & "I am leaving this option available in case the developers fix it.")
     End Sub
 End Class

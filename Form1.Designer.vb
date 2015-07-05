@@ -41,9 +41,12 @@ Partial Class Form1
         Me.l_gpudvr = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.l_gpu = New System.Windows.Forms.ComboBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.LinkLabel4 = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
         Me.CheckBox14 = New System.Windows.Forms.CheckBox()
         Me.CheckBox13 = New System.Windows.Forms.CheckBox()
         Me.CheckBox12 = New System.Windows.Forms.CheckBox()
@@ -103,7 +106,8 @@ Partial Class Form1
         Me.DeviceName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DeviceVRAM = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DeviceDriver = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.l_gpu = New System.Windows.Forms.ComboBox()
+        Me.CheckBox24 = New System.Windows.Forms.CheckBox()
+        Me.Button5 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -218,10 +222,10 @@ Partial Class Form1
         '
         'pb_sysinfo
         '
-        Me.pb_sysinfo.Location = New System.Drawing.Point(128, 84)
+        Me.pb_sysinfo.Location = New System.Drawing.Point(465, 84)
         Me.pb_sysinfo.Maximum = 40
         Me.pb_sysinfo.Name = "pb_sysinfo"
-        Me.pb_sysinfo.Size = New System.Drawing.Size(215, 20)
+        Me.pb_sysinfo.Size = New System.Drawing.Size(82, 20)
         Me.pb_sysinfo.TabIndex = 0
         '
         'Label3
@@ -295,6 +299,14 @@ Partial Class Form1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Graphics Information"
         '
+        'l_gpu
+        '
+        Me.l_gpu.FormattingEnabled = True
+        Me.l_gpu.Location = New System.Drawing.Point(64, 13)
+        Me.l_gpu.Name = "l_gpu"
+        Me.l_gpu.Size = New System.Drawing.Size(261, 21)
+        Me.l_gpu.TabIndex = 11
+        '
         'Button2
         '
         Me.Button2.Location = New System.Drawing.Point(215, 9)
@@ -317,6 +329,8 @@ Partial Class Form1
         'Panel1
         '
         Me.Panel1.AutoScroll = True
+        Me.Panel1.Controls.Add(Me.LinkLabel4)
+        Me.Panel1.Controls.Add(Me.LinkLabel3)
         Me.Panel1.Controls.Add(Me.CheckBox14)
         Me.Panel1.Controls.Add(Me.CheckBox13)
         Me.Panel1.Controls.Add(Me.CheckBox12)
@@ -336,6 +350,30 @@ Partial Class Form1
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(322, 257)
         Me.Panel1.TabIndex = 2
+        '
+        'LinkLabel4
+        '
+        Me.LinkLabel4.AutoSize = True
+        Me.LinkLabel4.LinkColor = System.Drawing.Color.Red
+        Me.LinkLabel4.Location = New System.Drawing.Point(102, 120)
+        Me.LinkLabel4.Name = "LinkLabel4"
+        Me.LinkLabel4.Size = New System.Drawing.Size(47, 13)
+        Me.LinkLabel4.TabIndex = 17
+        Me.LinkLabel4.TabStop = True
+        Me.LinkLabel4.Text = "NOTICE"
+        Me.LinkLabel4.VisitedLinkColor = System.Drawing.Color.Red
+        '
+        'LinkLabel3
+        '
+        Me.LinkLabel3.AutoSize = True
+        Me.LinkLabel3.LinkColor = System.Drawing.Color.Red
+        Me.LinkLabel3.Location = New System.Drawing.Point(185, 166)
+        Me.LinkLabel3.Name = "LinkLabel3"
+        Me.LinkLabel3.Size = New System.Drawing.Size(47, 13)
+        Me.LinkLabel3.TabIndex = 16
+        Me.LinkLabel3.TabStop = True
+        Me.LinkLabel3.Text = "NOTICE"
+        Me.LinkLabel3.VisitedLinkColor = System.Drawing.Color.Red
         '
         'CheckBox14
         '
@@ -909,19 +947,34 @@ Partial Class Form1
         Me.DeviceDriver.HeaderText = "DeviceDriver"
         Me.DeviceDriver.Name = "DeviceDriver"
         '
-        'l_gpu
+        'CheckBox24
         '
-        Me.l_gpu.FormattingEnabled = True
-        Me.l_gpu.Location = New System.Drawing.Point(64, 13)
-        Me.l_gpu.Name = "l_gpu"
-        Me.l_gpu.Size = New System.Drawing.Size(261, 21)
-        Me.l_gpu.TabIndex = 11
+        Me.CheckBox24.AutoSize = True
+        Me.CheckBox24.Checked = True
+        Me.CheckBox24.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox24.Location = New System.Drawing.Point(128, 87)
+        Me.CheckBox24.Name = "CheckBox24"
+        Me.CheckBox24.Size = New System.Drawing.Size(96, 17)
+        Me.CheckBox24.TabIndex = 10
+        Me.CheckBox24.Text = "Create backup"
+        Me.CheckBox24.UseVisualStyleBackColor = True
+        '
+        'Button5
+        '
+        Me.Button5.Location = New System.Drawing.Point(223, 84)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(95, 20)
+        Me.Button5.TabIndex = 11
+        Me.Button5.Text = "Restore Backup"
+        Me.Button5.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(692, 393)
+        Me.Controls.Add(Me.Button5)
+        Me.Controls.Add(Me.CheckBox24)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.GroupBox4)
@@ -936,7 +989,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "ArkEnhancer v1.1.7 (For Ark 173.0 - 174.31)"
+        Me.Text = "ArkEnhancer v1.1.8 (For Ark 173.0 - 183.1)"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -953,6 +1006,7 @@ Partial Class Form1
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
@@ -1036,5 +1090,9 @@ Partial Class Form1
     Friend WithEvents DeviceVRAM As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DeviceDriver As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents l_gpu As System.Windows.Forms.ComboBox
+    Friend WithEvents CheckBox24 As System.Windows.Forms.CheckBox
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents LinkLabel4 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
 
 End Class
