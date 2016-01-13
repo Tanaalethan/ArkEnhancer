@@ -12,10 +12,12 @@ Public Class Form1
 
     Public msini As New IniFile
     Public gsini As New IniFile
+    Public bsini As New IniFile
     Public arkessini As New IniFile
 
     Public msfile As String
     Public gsfile As String
+    Public bsfile As String
     Public arkess As String
     Public arkegpu As String
     Public arkebkp As String
@@ -56,9 +58,11 @@ Public Class Form1
             If File.Exists(arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                bsfile = arkess & "\SteamApps\common\ARK\Engine\Config\BaseScalability.ini"
             ElseIf File.Exists(arkess & "\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                bsfile = arkess.Substring(0, arkess.Length - 12) & "\Engine\Config\BaseScalability.ini"
             Else
                 MsgBox("ARKE was unable to locate your settings files. Please select the directory ShooterGame resides in." & vbCrLf & "Example: C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame", MsgBoxStyle.Exclamation)
                 'FolderBrowserDialog1.ShowDialog()
@@ -66,6 +70,7 @@ Public Class Form1
                     arkess = FolderBrowserDialog1.SelectedPath
                     msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
                     gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                    bsfile = arkess.Substring(0, arkess.Length - 12) & "\Engine\Config\BaseScalability.ini"
                     arkessini.SetKeyValue("SystemSettings", "programfilesname", arkess)
                     arkessini.Save(localfolder & "\arkespecialsettings.ini")
                 Else
@@ -124,6 +129,7 @@ Public Class Form1
 
         msini.Load(msfile)
         gsini.Load(gsfile)
+        bsini.Load(bsfile)
 
         pb_sysinfo.Value = 3
 
@@ -157,8 +163,9 @@ Public Class Form1
         End If
         'pb_sysinfo.Value += 1
 
-        Dim c5 As String = msini.GetKeyValue("SystemSettings", "r.BloomQuality")
-        If c5 IsNot "" Then
+        'Dim c5 As String = msini.GetKeyValue("SystemSettings", "r.BloomQuality")
+        Dim c5 As String = bsini.GetKeyValue("PostProcessQuality@0", "r.BloomQuality")
+        If c5 = "0" Then
             CheckBox5.Checked = True
         End If
         'pb_sysinfo.Value += 1
@@ -169,8 +176,9 @@ Public Class Form1
         End If
         'pb_sysinfo.Value += 1
 
-        Dim c7 As String = msini.GetKeyValue("SystemSettings", "r.LightShaftQuality")
-        If c7 IsNot "" Then
+        'Dim c7 As String = msini.GetKeyValue("SystemSettings", "r.LightShaftQuality")
+        Dim c7 As String = bsini.GetKeyValue("PostProcessQuality@0", "r.lightshafts")
+        If c7 = "0" Then
             CheckBox7.Checked = True
         End If
         'pb_sysinfo.Value += 1
@@ -407,9 +415,15 @@ Public Class Form1
         End If
         'pb_sysinfo.Value += 1
         If CheckBox5.Checked = True Then
-            msini.SetKeyValue("SystemSettings", "r.BloomQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@0", "r.BloomQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@1", "r.BloomQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@2", "r.BloomQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@3", "r.BloomQuality", "0")
         Else
-            msini.RemoveKey("SystemSettings", "r.BloomQuality")
+            bsini.SetKeyValue("PostProcessQuality@0", "r.BloomQuality", "2")
+            bsini.SetKeyValue("PostProcessQuality@1", "r.BloomQuality", "4")
+            bsini.SetKeyValue("PostProcessQuality@2", "r.BloomQuality", "5")
+            bsini.SetKeyValue("PostProcessQuality@3", "r.BloomQuality", "5")
         End If
         'pb_sysinfo.Value += 1
         If CheckBox6.Checked = True Then
@@ -419,9 +433,15 @@ Public Class Form1
         End If
         'pb_sysinfo.Value += 1
         If CheckBox7.Checked = True Then
-            msini.SetKeyValue("SystemSettings", "r.LightShaftQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@0", "r.lightshafts", "0")
+            bsini.SetKeyValue("PostProcessQuality@1", "r.lightshafts", "0")
+            bsini.SetKeyValue("PostProcessQuality@2", "r.lightshafts", "0")
+            bsini.SetKeyValue("PostProcessQuality@3", "r.lightshafts", "0")
         Else
-            msini.RemoveKey("SystemSettings", "r.LightShaftQuality")
+            bsini.RemoveKey("PostProcessQuality@0", "r.lightshafts")
+            bsini.RemoveKey("PostProcessQuality@1", "r.lightshafts")
+            bsini.RemoveKey("PostProcessQuality@2", "r.lightshafts")
+            bsini.RemoveKey("PostProcessQuality@3", "r.lightshafts")
         End If
         'pb_sysinfo.Value += 1
         If CheckBox8.Checked = True Then
@@ -525,6 +545,8 @@ Public Class Form1
 
         msini.Save(msfile)
         gsini.Save(gsfile)
+        'MsgBox(bsfile)
+        bsini.Save(bsfile)
         pb_sysinfo.Value = pb_sysinfo.Maximum
     End Sub
 
@@ -606,8 +628,10 @@ Public Class Form1
             Dim stamptext = "-arke-" & d.ToString("yyyy-MM-dd-HH-MM-ss")
             Dim msbfile As String = msfile.Insert(msfile.Length - 4, stamptext)
             Dim gsbfile As String = gsfile.Insert(gsfile.Length - 4, stamptext)
+            Dim bsbfile As String = bsfile.Insert(bsfile.Length - 4, stamptext)
             msini.Save(msbfile)
             gsini.Save(gsbfile)
+            bsini.Save(bsbfile)
         End If
 
         SetSettings()
@@ -701,7 +725,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_gpu_o.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value
+        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_mem.Text & "," & l_gpu.Text & "," & l_gpuram.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value & "," & CheckBox22.CheckState
         Dim onyn = MsgBox("Do you want to let ArkEnhancer connect to ark.hiveserver.net submit your settings?" & vbCrLf & "ARKE will only submit data visible for comparison and data entry." & vbCrLf & vbCrLf & submitstring, MsgBoxStyle.YesNo, "Online Access")
         If onyn = MsgBoxResult.Yes Then
             Dim request As WebRequest = WebRequest.Create("http://ark.hiveserver.net/arkesubmit.php?data=" & submitstring)
