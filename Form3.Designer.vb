@@ -116,7 +116,6 @@ Partial Class Form3
         '
         'ComboBox1
         '
-        Me.ComboBox1.Enabled = False
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"Stable", "Experimental"})
         Me.ComboBox1.Location = New System.Drawing.Point(90, 19)

@@ -9,7 +9,7 @@
 
         arkbuildline = Form1.arkessini.GetKeyValue("AppSettings", "BuildLine")
         If arkbuildline = "" Then
-            arkbuildline = "1"
+            arkbuildline = "0"
         End If
         ComboBox1.SelectedIndex = arkbuildline
 

@@ -117,46 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="FolderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="FolderBrowserDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>188, 17</value>
-  </metadata>
-  <metadata name="DeviceName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DeviceVRAM.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DeviceDriver.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DeviceName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DeviceVRAM.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DeviceDriver.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="PictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIVSURBVDhPjVLJihpRFK1VFvmAXiSfkFV+Irt8Rpb5
-        jGSXlfOMioIjiLgSxRERJ1QcUJxQcMSUitBJad/c8+gq2m4XeXCqXt2659zz7n0SEb1BLpf7GY/HFx6P
-        5wnAHrF7uW8CkUjkIRAI/OX9zULM7/d/4O1Nvng8V5xwtSuDYrEYdbtdul6vdLlcqN1uixj+IQe5qiMh
-        wOqP/NbWdDqlcDhMzWZTIBQKidjL9cyRpGg06mJQp9MRFYFSqUSJRIK8Xq8A9ojBjaIo1Gq1CByHw+GX
-        uJLS7/epVqtRvV4XFVH99VIdVatVymazlE6nyWazKRLbk0+nE63XaxqNRjQej4nPR4PBQHOEfT6fp16v
-        R8lkUqDRaJDVapWlYDAoBA6HA+33e5rNZsJupVLReoCqaCKImUxGAG4tFouMBgoBWZZpt9vRZrOhxWIh
-        quJohUJBEGEZzuAEAihgNptliWf753w+0/F4pOVyKciTyYSGw6EYJZJBVJFKpYRYuVwmg8HwKPl8viQC
-        8/lcHAMi6AUcQAD/0DQATlAZolyY9Hp9VuIxvePL8c3tdg+RtFqtaLvdimZCQG0aiOgN7gQTp4zvOp3u
-        vXYlXS7Xg9Pp/MGz/V0sFoUIxNBAjJhvHyyfmPiLiR9Vniagwm63f+L5+nhETyDizOwO5DCTP7/Ov/l4
-        Ce7wF5PJlDYajQUmf72XA9wN/j9I+gdcby0cbkUDWAAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="PictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
@@ -176,6 +137,36 @@
         TkSuQmCC
 </value>
   </data>
+  <data name="PictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIVSURBVDhPjVLJihpRFK1VFvmAXiSfkFV+Irt8Rpb5
+        jGSXlfOMioIjiLgSxRERJ1QcUJxQcMSUitBJad/c8+gq2m4XeXCqXt2659zz7n0SEb1BLpf7GY/HFx6P
+        5wnAHrF7uW8CkUjkIRAI/OX9zULM7/d/4O1Nvng8V5xwtSuDYrEYdbtdul6vdLlcqN1uixj+IQe5qiMh
+        wOqP/NbWdDqlcDhMzWZTIBQKidjL9cyRpGg06mJQp9MRFYFSqUSJRIK8Xq8A9ojBjaIo1Gq1CByHw+GX
+        uJLS7/epVqtRvV4XFVH99VIdVatVymazlE6nyWazKRLbk0+nE63XaxqNRjQej4nPR4PBQHOEfT6fp16v
+        R8lkUqDRaJDVapWlYDAoBA6HA+33e5rNZsJupVLReoCqaCKImUxGAG4tFouMBgoBWZZpt9vRZrOhxWIh
+        quJohUJBEGEZzuAEAihgNptliWf753w+0/F4pOVyKciTyYSGw6EYJZJBVJFKpYRYuVwmg8HwKPl8viQC
+        8/lcHAMi6AUcQAD/0DQATlAZolyY9Hp9VuIxvePL8c3tdg+RtFqtaLvdimZCQG0aiOgN7gQTp4zvOp3u
+        vXYlXS7Xg9Pp/MGz/V0sFoUIxNBAjJhvHyyfmPiLiR9Vniagwm63f+L5+nhETyDizOwO5DCTP7/Ov/l4
+        Ce7wF5PJlDYajQUmf72XA9wN/j9I+gdcby0cbkUDWAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="FolderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="FolderBrowserDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>188, 17</value>
+  </metadata>
+  <metadata name="DeviceName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="DeviceVRAM.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="DeviceDriver.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA

@@ -7,9 +7,10 @@ Imports System.Globalization
 
 Public Class Form1
 
-    Public ARKE_VNum = "1.2.0 d-0253"
+    Public ARKE_VNum = "1.2.0 d-0264"
     Public ARKE_VMin = "173.0"
-    Public ARKE_VMax = "231.3"
+    Public ARKE_VMax = "231.7"
+    Public ARKE_VDate = "14/01/2016"
     Public ARKE_VLin = "0"
     Public ARKE_VLUT = "0"
     Public ARKE_VAUD = "false"
@@ -35,7 +36,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Application.CurrentCulture = New CultureInfo("en-US")
-        Me.Text = "ArkEnhancer v" + ARKE_VNum + " (For Ark " + ARKE_VMin + " - " + ARKE_VMax + ")"
+        Me.Text = "ArkEnhancer v" + ARKE_VNum + " " + ARKE_VDate + " (For Ark " + ARKE_VMin + " - " + ARKE_VMax + ")"
         'MsgBox(localfolder & "\arkespecialsettings.ini")
 
         GetINIFiles()
@@ -67,7 +68,7 @@ Public Class Form1
 
             ARKE_VLin = arkessini.GetKeyValue("AppSettings", "BuildLine")
             If ARKE_VLin = "" Then
-                ARKE_VLin = "1"
+                ARKE_VLin = "0"
             End If
             ARKE_VLUT = arkessini.GetKeyValue("AppSettings", "UpdateLast")
             If ARKE_VLUT = "" Then
@@ -104,9 +105,11 @@ Public Class Form1
             If File.Exists("C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                bsfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\Engine\Config\BaseScalability.ini"
             ElseIf File.Exists("C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                bsfile = "C:\Program Files\Steam\SteamApps\common\ARK\Engine\Config\BaseScalability.ini"
             Else
                 MsgBox("ARKE was unable to locate your settings files. Please select the directory ShooterGame resides in." & vbCrLf & "Example: C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame", MsgBoxStyle.Exclamation)
                 'FolderBrowserDialog1.ShowDialog()
@@ -114,6 +117,7 @@ Public Class Form1
                     arkess = FolderBrowserDialog1.SelectedPath
                     msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
                     gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                    bsfile = arkess.Substring(0, arkess.Length - 12) & "\Engine\Config\BaseScalability.ini"
                     arkessini.SetKeyValue("SystemSettings", "programfilesname", arkess)
                     arkessini.Save(localfolder & "\arkespecialsettings.ini")
                 Else
@@ -749,7 +753,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_mem.Text & "," & l_gpu.Text & "," & l_gpuram.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value & "," & CheckBox22.CheckState
+        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_mem.Text & "," & l_gpu.Text & "," & l_gpuram.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value & "," & CheckBox23.CheckState
         Dim onyn = MsgBox("Do you want to let ArkEnhancer connect to ark.hiveserver.net submit your settings?" & vbCrLf & "ARKE will only submit data visible for comparison and data entry." & vbCrLf & vbCrLf & submitstring, MsgBoxStyle.YesNo, "Online Access")
         If onyn = MsgBoxResult.Yes Then
             Dim request As WebRequest = WebRequest.Create("http://ark.hiveserver.net/arkesubmit.php?data=" & submitstring)
