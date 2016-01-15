@@ -24,6 +24,8 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.l_cpucre = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -42,7 +44,6 @@ Partial Class Form1
         Me.Label6 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.l_gpu = New System.Windows.Forms.ComboBox()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.LinkLabel4 = New System.Windows.Forms.LinkLabel()
@@ -109,6 +110,8 @@ Partial Class Form1
         Me.CheckBox24 = New System.Windows.Forms.CheckBox()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -123,6 +126,8 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.PictureBox2)
+        Me.GroupBox1.Controls.Add(Me.PictureBox1)
         Me.GroupBox1.Controls.Add(Me.l_cpucre)
         Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -138,6 +143,26 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "System Information"
+        '
+        'PictureBox2
+        '
+        Me.PictureBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
+        Me.PictureBox2.Location = New System.Drawing.Point(259, 46)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(16, 16)
+        Me.PictureBox2.TabIndex = 11
+        Me.PictureBox2.TabStop = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(309, 46)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(16, 16)
+        Me.PictureBox1.TabIndex = 10
+        Me.PictureBox1.TabStop = False
         '
         'l_cpucre
         '
@@ -288,7 +313,6 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.l_gpudvr)
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Controls.Add(Me.Label6)
-        Me.GroupBox2.Controls.Add(Me.Button2)
         Me.GroupBox2.Controls.Add(Me.l_gpu_o)
         Me.GroupBox2.Controls.Add(Me.l_gpuram)
         Me.GroupBox2.Controls.Add(Me.Label5)
@@ -306,16 +330,6 @@ Partial Class Form1
         Me.l_gpu.Name = "l_gpu"
         Me.l_gpu.Size = New System.Drawing.Size(261, 21)
         Me.l_gpu.TabIndex = 11
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(215, 9)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(110, 20)
-        Me.Button2.TabIndex = 4
-        Me.Button2.Text = "CLEAR ALL"
-        Me.Button2.UseVisualStyleBackColor = True
-        Me.Button2.Visible = False
         '
         'Button3
         '
@@ -357,10 +371,11 @@ Partial Class Form1
         Me.LinkLabel4.LinkColor = System.Drawing.Color.Red
         Me.LinkLabel4.Location = New System.Drawing.Point(102, 120)
         Me.LinkLabel4.Name = "LinkLabel4"
-        Me.LinkLabel4.Size = New System.Drawing.Size(47, 13)
+        Me.LinkLabel4.Size = New System.Drawing.Size(90, 13)
         Me.LinkLabel4.TabIndex = 17
         Me.LinkLabel4.TabStop = True
-        Me.LinkLabel4.Text = "NOTICE"
+        Me.LinkLabel4.Text = "EXPERIMENTAL"
+        Me.LinkLabel4.Visible = False
         Me.LinkLabel4.VisitedLinkColor = System.Drawing.Color.Red
         '
         'LinkLabel3
@@ -369,10 +384,11 @@ Partial Class Form1
         Me.LinkLabel3.LinkColor = System.Drawing.Color.Red
         Me.LinkLabel3.Location = New System.Drawing.Point(185, 166)
         Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(47, 13)
+        Me.LinkLabel3.Size = New System.Drawing.Size(90, 13)
         Me.LinkLabel3.TabIndex = 16
         Me.LinkLabel3.TabStop = True
-        Me.LinkLabel3.Text = "NOTICE"
+        Me.LinkLabel3.Text = "EXPERIMENTAL"
+        Me.LinkLabel3.Visible = False
         Me.LinkLabel3.VisitedLinkColor = System.Drawing.Color.Red
         '
         'CheckBox14
@@ -989,9 +1005,11 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "ArkEnhancer v1.1.10 (For Ark 173.0 - 190.0)"
+        Me.Text = "ArkEnhancer vV (For Ark N - M)"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.Panel1.ResumeLayout(False)
@@ -1042,7 +1060,6 @@ Partial Class Form1
     Friend WithEvents CheckBox10 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox9 As System.Windows.Forms.CheckBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents CheckBox14 As System.Windows.Forms.CheckBox
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Label4 As System.Windows.Forms.Label
@@ -1094,5 +1111,6 @@ Partial Class Form1
     Friend WithEvents Button5 As System.Windows.Forms.Button
     Friend WithEvents LinkLabel4 As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
-
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents PictureBox2 As PictureBox
 End Class

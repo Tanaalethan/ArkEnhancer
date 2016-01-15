@@ -6,6 +6,15 @@ Imports System.Text
 Imports System.Globalization
 
 Public Class Form1
+
+    Public ARKE_VNum = "1.2.0 d-0264"
+    Public ARKE_VMin = "173.0"
+    Public ARKE_VMax = "231.7"
+    Public ARKE_VDate = "14/01/2016"
+    Public ARKE_VLin = "0"
+    Public ARKE_VLUT = "0"
+    Public ARKE_VAUD = "false"
+
     Public nfi As NumberFormatInfo = New CultureInfo("en-US", False).NumberFormat
     'Thread.CurrentThread.CurrentCulture = New CultureInfo("en-US")
     Public localfolder As String = Application.StartupPath
@@ -27,12 +36,14 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Application.CurrentCulture = New CultureInfo("en-US")
+        Me.Text = "ArkEnhancer v" + ARKE_VNum + " " + ARKE_VDate + " (For Ark " + ARKE_VMin + " - " + ARKE_VMax + ")"
         'MsgBox(localfolder & "\arkespecialsettings.ini")
+
         GetINIFiles()
     End Sub
 
 
-    Private Sub GetINIFiles()
+    Public Sub GetINIFiles()
         FolderBrowserDialog1.SelectedPath = ""
         If File.Exists("C:\arkespecialsettings.ini") Or File.Exists(localfolder & "\arkespecialsettings.ini") Then
             If File.Exists(localfolder & "\arkespecialsettings.ini") Then
@@ -54,6 +65,19 @@ Public Class Form1
             End If
             'MsgBox(arkebkp)
             CheckBox24.Checked = arkebkp
+
+            ARKE_VLin = arkessini.GetKeyValue("AppSettings", "BuildLine")
+            If ARKE_VLin = "" Then
+                ARKE_VLin = "0"
+            End If
+            ARKE_VLUT = arkessini.GetKeyValue("AppSettings", "UpdateLast")
+            If ARKE_VLUT = "" Then
+                ARKE_VLUT = "Never"
+            End If
+            ARKE_VAUD = arkessini.GetKeyValue("AppSettings", "AutoUpdate")
+            If ARKE_VAUD = "" Then
+                ARKE_VAUD = "false"
+            End If
 
             If File.Exists(arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = arkess & "\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
@@ -81,9 +105,11 @@ Public Class Form1
             If File.Exists("C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                bsfile = "C:\Program Files (x86)\Steam\SteamApps\common\ARK\Engine\Config\BaseScalability.ini"
             ElseIf File.Exists("C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini") Then
                 msfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\Engine.ini"
                 gsfile = "C:\Program Files\Steam\SteamApps\common\ARK\ShooterGame\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                bsfile = "C:\Program Files\Steam\SteamApps\common\ARK\Engine\Config\BaseScalability.ini"
             Else
                 MsgBox("ARKE was unable to locate your settings files. Please select the directory ShooterGame resides in." & vbCrLf & "Example: C:\Program Files (x86)\Steam\SteamApps\common\ARK\ShooterGame", MsgBoxStyle.Exclamation)
                 'FolderBrowserDialog1.ShowDialog()
@@ -91,6 +117,7 @@ Public Class Form1
                     arkess = FolderBrowserDialog1.SelectedPath
                     msfile = arkess & "\Saved\Config\WindowsNoEditor\Engine.ini"
                     gsfile = arkess & "\Saved\Config\WindowsNoEditor\GameUserSettings.ini"
+                    bsfile = arkess.Substring(0, arkess.Length - 12) & "\Engine\Config\BaseScalability.ini"
                     arkessini.SetKeyValue("SystemSettings", "programfilesname", arkess)
                     arkessini.Save(localfolder & "\arkespecialsettings.ini")
                 Else
@@ -106,8 +133,12 @@ Public Class Form1
 
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+
+        If ARKE_VAUD Then
+            CheckForUpdate()
+        End If
         DoLoadINI()
-        
+
     End Sub
 
     Sub DoLoadINI()
@@ -129,6 +160,7 @@ Public Class Form1
 
         msini.Load(msfile)
         gsini.Load(gsfile)
+        'MsgBox(bsfile)
         bsini.Load(bsfile)
 
         pb_sysinfo.Value = 3
@@ -415,6 +447,7 @@ Public Class Form1
         End If
         'pb_sysinfo.Value += 1
         If CheckBox5.Checked = True Then
+            bsini.SetKeyValue("SystemSettings", "r.DefaultFeature.Bloom", "False")
             bsini.SetKeyValue("PostProcessQuality@0", "r.BloomQuality", "0")
             bsini.SetKeyValue("PostProcessQuality@1", "r.BloomQuality", "0")
             bsini.SetKeyValue("PostProcessQuality@2", "r.BloomQuality", "0")
@@ -458,8 +491,16 @@ Public Class Form1
         'pb_sysinfo.Value += 1
         If CheckBox10.Checked = True Then
             msini.SetKeyValue("SystemSettings", "r.LensFlareQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@0", "r.LensFlareQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@1", "r.LensFlareQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@2", "r.LensFlareQuality", "0")
+            bsini.SetKeyValue("PostProcessQuality@3", "r.LensFlareQuality", "0")
         Else
             msini.RemoveKey("SystemSettings", "r.LensFlareQuality")
+            bsini.RemoveKey("PostProcessQuality@0", "r.LensFlareQuality")
+            bsini.RemoveKey("PostProcessQuality@1", "r.LensFlareQuality")
+            bsini.RemoveKey("PostProcessQuality@2", "r.LensFlareQuality")
+            bsini.RemoveKey("PostProcessQuality@3", "r.LensFlareQuality")
         End If
         'pb_sysinfo.Value += 1
         If CheckBox11.Checked = True Then
@@ -637,21 +678,8 @@ Public Class Form1
         SetSettings()
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        CheckBox1.Checked = False
-        CheckBox2.Checked = False
-        CheckBox3.Checked = False
-        CheckBox4.Checked = False
-        CheckBox5.Checked = False
-        CheckBox6.Checked = False
-        CheckBox7.Checked = False
-        CheckBox8.Checked = False
-        CheckBox9.Checked = False
-        CheckBox10.Checked = False
-        CheckBox11.Checked = False
-        CheckBox13.Checked = False
-        CheckBox12.Checked = False
-        CheckBox14.Checked = False
+    Private Sub Button2_Click(sender As Object, e As EventArgs)
+
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -725,7 +753,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_mem.Text & "," & l_gpu.Text & "," & l_gpuram.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value & "," & CheckBox22.CheckState
+        Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_mem.Text & "," & l_gpu.Text & "," & l_gpuram.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value & "," & CheckBox23.CheckState
         Dim onyn = MsgBox("Do you want to let ArkEnhancer connect to ark.hiveserver.net submit your settings?" & vbCrLf & "ARKE will only submit data visible for comparison and data entry." & vbCrLf & vbCrLf & submitstring, MsgBoxStyle.YesNo, "Online Access")
         If onyn = MsgBoxResult.Yes Then
             Dim request As WebRequest = WebRequest.Create("http://ark.hiveserver.net/arkesubmit.php?data=" & submitstring)
@@ -760,6 +788,49 @@ Public Class Form1
     End Sub
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked, LinkLabel4.LinkClicked
-        MsgBox("As of current game version 183.1, this setting does absolutely nothing." & vbCrLf & "I am leaving this option available in case the developers fix it.")
+        'MsgBox("As of current game version 183.1, this setting does absolutely nothing." & vbCrLf & "I am leaving this option available in case the developers fix it.")
+        MsgBox("This option is experimental in this version of ARK Enhancer")
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+        Form3.ShowDialog()
+    End Sub
+
+    Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
+        Dim filespace = "http://ark.hiveserver.net/"
+        Process.Start(filespace)
+    End Sub
+
+
+
+    Public Sub CheckForUpdate()
+        ''Dim submitstring As String = l_cpu.Text & "," & l_cpuspd.Text & "," & l_mem.Text & "," & l_gpu.Text & "," & l_gpuram.Text & "," & l_gpudvr.Text & "," & CheckBox1.CheckState & "," & CheckBox2.CheckState & "," & CheckBox3.CheckState & "," & CheckBox4.CheckState & "," & CheckBox5.CheckState & "," & CheckBox6.CheckState & "," & CheckBox7.CheckState & "," & CheckBox8.CheckState & "," & CheckBox9.CheckState & "," & CheckBox10.CheckState & "," & CheckBox11.CheckState & "," & CheckBox12.CheckState & "," & CheckBox13.CheckState & "," & CheckBox14.CheckState & "," & TextBox1.Text & "," & NumericUpDown1.Value & "," & (ComboBox1.SelectedIndex + 1) & "," & (ComboBox2.SelectedIndex + 1) & "," & (ComboBox3.SelectedIndex + 1) & "," & (ComboBox4.SelectedIndex + 1) & "," & (ComboBox5.SelectedIndex + 1) & "," & (ComboBox6.SelectedIndex + 1) & "," & (ComboBox7.SelectedIndex + 1) & "," & NumericUpDown2.Value & "," & NumericUpDown3.Value & "," & CheckBox15.CheckState & "," & CheckBox16.CheckState & "," & CheckBox17.CheckState & "," & CheckBox18.CheckState & "," & CheckBox19.CheckState & "," & CheckBox20.CheckState & "," & CheckBox21.CheckState & "," & CheckBox22.CheckState & "," & NumericUpDown4.Value & "," & CheckBox22.CheckState
+        'Dim onyn = MsgBox("Do you want to let ArkEnhancer connect to ark.hiveserver.net submit your settings?" & vbCrLf & "ARKE will only submit data visible for comparison and data entry." & vbCrLf & vbCrLf & submitstring, MsgBoxStyle.YesNo, "Online Access")
+        'If onyn = MsgBoxResult.Yes Then
+        Dim request As WebRequest = WebRequest.Create("http://ark.hiveserver.net/arkeupdate_getversion.php?current=" & ARKE_VNum & "&line=" & ARKE_VLin)
+        Dim response As WebResponse = request.GetResponse()
+            Dim dataStream As Stream = response.GetResponseStream()
+            Dim reader As New StreamReader(dataStream)
+            Dim responseFromServer As String = reader.ReadToEnd()
+            'Console.WriteLine(responseFromServer)
+            reader.Close()
+            response.Close()
+        'MsgBox(responseFromServer)
+        If (responseFromServer) Then
+            Dim avl = "stable"
+            If ARKE_VLin = 1 Then
+                avl = "experimental"
+            End If
+            'Dim filespace = "http://ark.hiveserver.net/files/arke_" & avl & ".zip"
+            Dim filespace = "http://ark.hiveserver.net/getarke?v=" & ARKE_VLin
+            Dim onyn = MsgBox("An update is available." & vbCrLf & "Do you want ArkEnhancer to download the below file?" & vbCrLf & vbCrLf & filespace & vbCrLf & vbCrLf & "Pressing [Yes] will open your default browser.", MsgBoxStyle.YesNo, "Online Access")
+            If onyn = MsgBoxResult.Yes Then
+                Process.Start(filespace)
+            End If
+        End If
+        ARKE_VLUT = Date.Now
+        arkessini.SetKeyValue("AppSettings", "UpdateLast", ARKE_VLUT)
+        arkessini.Save(localfolder & "\arkespecialsettings.ini")
+        'End If
     End Sub
 End Class
